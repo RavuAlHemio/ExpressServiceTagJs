@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Service Tag to Express Service Tag</title>
+    <script type="text/javascript" src="BadBignum.js"></script>
+    <!--<script type="text/javascript" src="BadBignumTests.js"></script>-->
+    <script type="text/javascript" src="ServiceTag.js"></script>
+    <script type="text/javascript" src="ST2EST.js"></script>
+</head>
+<body>
+    <h1>Service Tag to Express Service Tag</h1>
+    <p>
+        This page converts between Dell’s <em>Service Tags</em> and <em>Express Service Tags</em> (previously known as
+        <em>Express Service Codes</em>).
+    </p>
+    <p>
+        The code is implemented in TypeScript/JavaScript; the Service Tags are not sent to the server.
+    </p>
+    <p>
+        <label for="input-service-tag">Service Tag:</label>
+        <input type="text" id="input-service-tag" />
+        <input type="button" id="button-st2est" value="ST to EST →" />
+        <input type="button" id="button-est2st" value="← EST to ST" />
+        <label for="input-express-service-tag">Express Service Tag:</label>
+        <input type="text" id="input-express-service-tag" />
+    </p>
+    <script type="text/javascript">
+        ST2EST.initialize();
+    </script>
+</body>
+</html>
