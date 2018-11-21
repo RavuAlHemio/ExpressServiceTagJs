@@ -16,30 +16,26 @@ module ST2EST {
     function initEventHandling(): void {
         if (window.addEventListener || window.attachEvent) {
             if (window.addEventListener) {
-                onEvent = function (obj: EventTarget, evt: string, func: EventListener): void {
+                onEvent = (obj: EventTarget, evt: string, func: EventListener): void => {
                     obj.addEventListener(evt, func);
                 };
             } else {
-                onEvent = function (obj: EventTarget, evt: string, func: EventListener): void {
+                onEvent = (obj: EventTarget, evt: string, func: EventListener): void => {
                     if (obj.attachEvent) {
                         obj.attachEvent('on' + evt, func);
                     }
                 };
             }
-            onLoaded = function (func: EventListener): void {
-                onEvent(document, 'DOMContentLoaded', func);
-            };
+            onLoaded = (func: EventListener): void => onEvent(document, 'DOMContentLoaded', func);
         } else {
             // the dirty solution
-            onEvent = function (obj: EventTarget, evt: string, func: EventListener): void {
+            onEvent = (obj: EventTarget, evt: string, func: EventListener): void => {
                 let cur: () => void | null | undefined = obj[evt];
-                (function (objCap: EventTarget, evtCap: string, funcCap: EventListener, curCap: () => void | null | undefined) {
-                    objCap[evtCap] = function (): void { funcCap(new Event(evtCap)); if (curCap) { curCap(); } };
+                ((objCap: EventTarget, evtCap: string, funcCap: EventListener, curCap: () => void | null | undefined) => {
+                    objCap[evtCap] = (): void => { funcCap(new Event(evtCap)); if (curCap) { curCap(); } };
                 })(obj, 'on' + evt, func, cur);
             };
-            onLoaded = function (func: EventListener) {
-                onEvent(window, 'load', func);
-            };
+            onLoaded = (func: EventListener): void => onEvent(window, 'load', func);
         }
     }
 
