@@ -167,7 +167,7 @@ class BadBignum {
             return [BadBignum.one, BadBignum.zero];
         }
 
-        // obtain the initial dividend
+        // obtain the initial dividend (grab digits from the left until dividend > divisor)
         let currentDividend: BadBignum = new BadBignum(this.number[0]);
         let remainingDividendDigits: string = this.number.substr(1);
         while (currentDividend.cmp(divisor) == -1) {
