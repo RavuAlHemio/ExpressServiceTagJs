@@ -251,20 +251,20 @@ class BadBignum {
         }
 
         let halfResult: string = BadBignum.addTable[digit1][digit2];
-        let halfSum: string = halfResult[0];
-        let halfCarryOut: string = halfResult[1];
+        let [halfSum, halfCarryOut]: [string, string] = [halfResult[0], halfResult[1]];
 
         let fullResult: string = (halfSum > carryIn)
             ? BadBignum.addTable[carryIn][halfSum]
             : BadBignum.addTable[halfSum][carryIn]
         ;
-        let fullSum: string = fullResult[0];
-        let fullCarryOut: string = (fullResult[1] > halfCarryOut)
-            ? BadBignum.addTable[halfCarryOut][fullResult[1]]
-            : BadBignum.addTable[fullResult[1]][halfCarryOut]
+        let [fullSum, fullCarryOut]: [string, string] = [fullResult[0], fullResult[1]];
+        let finalCarryOut: string = (fullCarryOut > halfCarryOut)
+            ? BadBignum.addTable[halfCarryOut][fullCarryOut]
+            : BadBignum.addTable[fullCarryOut][halfCarryOut]
         ;
+        BadBignum.assert(finalCarryOut[1] == '0', 'final carry value is single-digit');
 
-        let returnValue: string = fullSum + fullCarryOut[0];
+        let returnValue: string = fullSum + finalCarryOut[0];
         BadBignum.assert(returnValue.length == 2, 'return value are two digits');
 
         return returnValue;
@@ -279,17 +279,17 @@ class BadBignum {
         BadBignum.assert(borrowIn.length == 1, 'borrowIn is a single digit');
 
         let halfResult: string = BadBignum.subTable[minuend][subtrahend];
-        let halfDiff: string = halfResult[0];
-        let halfBorrowOut: string = halfResult[1];
+        let [halfDiff, halfBorrowOut]: [string, string] = [halfResult[0], halfResult[1]];
 
         let fullResult: string = BadBignum.subTable[halfDiff][borrowIn];
-        let fullDiff: string = fullResult[0];
-        let fullBorrowOut: string = (fullResult[1] > halfBorrowOut)
-            ? BadBignum.addTable[halfBorrowOut][fullResult[1]]
-            : BadBignum.addTable[fullResult[1]][halfBorrowOut]
+        let [fullDiff, fullBorrowOut]: [string, string] = [fullResult[0], fullResult[1]];
+        let finalBorrowOut: string = (fullBorrowOut > halfBorrowOut)
+            ? BadBignum.addTable[halfBorrowOut][fullBorrowOut]
+            : BadBignum.addTable[fullBorrowOut][halfBorrowOut]
         ;
+        BadBignum.assert(finalBorrowOut[1] == '0', 'final borrow value is single-digit');
 
-        let returnValue: string = fullDiff + fullBorrowOut[0];
+        let returnValue: string = fullDiff + finalBorrowOut[0];
         BadBignum.assert(returnValue.length == 2, 'return value are two digits');
 
         return returnValue;
@@ -316,12 +316,10 @@ class BadBignum {
         let product: string = '';
         for (let i = factorNumber.length - 1; i >= 0; --i) {
             let productResult: string = BadBignum.multiplyDigit(factorNumber[i], factorDigit);
-            let productDigitOnly: string = productResult[0];
-            let productCarry: string = productResult[1];
+            let [productDigitOnly, productCarry]: [string, string] = [productResult[0], productResult[1]];
 
             let productDigitAndCarry: string = BadBignum.fullAdder(productDigitOnly, carry);
-            let productDigit: string = productDigitAndCarry[0];
-            let sumCarry: string = productDigitAndCarry[1];
+            let [productDigit, sumCarry]: [string, string] = [productDigitAndCarry[0], productDigitAndCarry[1]];
 
             let outCarry: string = BadBignum.fullAdder(productCarry, sumCarry);
             BadBignum.assert(outCarry[1] == '0', 'out carry is single-digit');
