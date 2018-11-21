@@ -58,7 +58,7 @@ module ServiceTag {
             // remainder won't
             let remainder: number = +divRem[1].toString();
             let base36Digit: string | null = toBase36Digit(remainder);
-            if (base36Digit === null) { 
+            if (base36Digit === null) {
                 throw new Error('null result from toBase36Digit');
             }
             st = base36Digit + st;
@@ -66,9 +66,9 @@ module ServiceTag {
 
         return st;
     }
+
     function fromBase36Digit(char: Base36Digit): number;
     function fromBase36Digit(char: string): number | null;
-
     function fromBase36Digit(char: string): number | null {
         let charValue: number = char.charCodeAt(0);
         if (char >= '0' && char <= '9') {

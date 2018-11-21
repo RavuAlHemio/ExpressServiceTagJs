@@ -7,7 +7,7 @@ interface EventTarget {
 module ST2EST {
     let onEvent: (source: EventTarget, eventName: string, listener: EventListener) => void;
     let onLoaded: (listener: EventListener) => void;
-    
+
     export function initialize(): void {
         initEventHandling();
         onLoaded(isLoaded);
